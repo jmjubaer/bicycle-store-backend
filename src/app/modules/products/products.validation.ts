@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const ProductValidationSchema = z.object({
-  name: z.string().nonempty('Name is required'),
+  name: z.string({ required_error: 'Name is required' }),
   brand: z.string().nonempty('Brand is required'),
   price: z.number().positive('Price must be a positive number'), // Ensures price is a positive number
   type: z.enum(['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric'], {

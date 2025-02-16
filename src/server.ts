@@ -4,13 +4,14 @@ import config from './app/config';
 
 // getting-started.js
 import mongoose from 'mongoose';
+import seedSupperAdmin from './app/DB';
 // import seedSupperAdmin from './app/DB';
 let server: Server;
 
 async function main() {
   try {
     await mongoose.connect(config.database_url as string);
-    // seedSupperAdmin();
+    seedSupperAdmin();
     server = app.listen(config.port, () => {
       console.log(`Example app listening on port ${config.port}`);
     });

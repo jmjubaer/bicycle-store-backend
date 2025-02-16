@@ -4,7 +4,7 @@ const orderValidationSchema = z.object({
   email: z.string().email('Invalid email format').nonempty('Email is required'),
   product: z.string().nonempty('Product is required'),
   quantity: z
-    .number()
+    .number() 
     .int('Quantity must be an integer')
     .positive('Quantity must be a positive number')
     .refine((val) => val > 0, { message: 'Quantity is required' }),

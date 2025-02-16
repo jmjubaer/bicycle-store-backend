@@ -3,17 +3,18 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { productRoutes } from './app/modules/products/products.routes';
 import { orderRoutes } from './app/modules/orders/order.routes';
+import { globalErrorHandler } from './app/errors/globalErrorHandler';
+import { userRoutes } from './app/modules/user/user.routes';
 const app = express();
 
 app.use(express.json());
 app.use(cors());
-
 app.use('/', productRoutes);
 app.use('/', orderRoutes);
+app.use('/', userRoutes);
 app.get('/', (req, res) => {
   res.send('By-cycle store server is running');
 });
-
 
 // not  found error handler
 app.all('*', (req, res) => {
@@ -23,7 +24,7 @@ app.all('*', (req, res) => {
   });
 });
 
-// global error handler
+app.use(globalErrorHandler);
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   if (error) {
     res.status(400).json({
