@@ -3,8 +3,9 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { productRoutes } from './app/modules/products/products.routes';
 import { orderRoutes } from './app/modules/orders/order.routes';
-import { globalErrorHandler } from './app/errors/globalErrorHandler';
 import { userRoutes } from './app/modules/user/user.routes';
+import { authRoutes } from './app/modules/auth/auth.route';
+import { globalErrorHandler } from './app/errors/GlobalErrorHandler';
 const app = express();
 
 app.use(express.json());
@@ -12,6 +13,7 @@ app.use(cors());
 app.use('/', productRoutes);
 app.use('/', orderRoutes);
 app.use('/', userRoutes);
+app.use('/', authRoutes);
 app.get('/', (req, res) => {
   res.send('By-cycle store server is running');
 });
