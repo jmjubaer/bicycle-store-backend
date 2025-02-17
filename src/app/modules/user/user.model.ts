@@ -23,6 +23,9 @@ const userSchema = new Schema<TUser>(
       enum: ['admin', 'supperAdmin', 'customer'],
       default: 'customer',
     },
+    passwordChangedAt: {
+      type: Date,
+    },
     status: {
       type: String,
       enum: ['in-progress', 'blocked'],

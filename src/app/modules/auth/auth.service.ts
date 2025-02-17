@@ -4,7 +4,7 @@ import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TChangePassword, TLoginUser } from './auth.interface';
 import { checkPassword, createToken } from './auth.utils';
-
+import bcrypt from 'bcrypt';
 const loginUser = async (payload: TLoginUser) => {
   const user = await User.findOne({ email: payload.email }).select('+password');
   if (!user) {
@@ -51,7 +51,9 @@ const changePassword = async (
   userData: JwtPayload,
   payload: TChangePassword,
 ) => {
-  const user = await User.findOne({ email: payload.email }).select('+password');
+  const user = await User.findOne({ email: userData.email }).select(
+    '+password',
+  );
   if (!user) {
     throw new AppError(404, 'User does not exist');
   }
@@ -64,9 +66,10 @@ const changePassword = async (
   }
 
   const isPasswordMatched = await checkPassword(
-    payload?.password,
+    payload?.oldPassword,
     user?.password,
   );
+
   if (!isPasswordMatched) {
     throw new AppError(403, 'Incorrect password');
   }
@@ -78,15 +81,18 @@ const changePassword = async (
     payload?.newPassword,
     Number(config.bcrypt_salt_round),
   );
-  await User.findOneAndUpdate(
-    { id: user?.email, role: user?.role },
+  const result = await User.findOneAndUpdate(
+    { email: user?.email, role: user?.role },
     {
       password: hashedPassword,
-      needsPasswordChange: false,
       passwordChangedAt: new Date(),
     },
   );
-  return { message: 'Password changed successfully' };
+  console.log(result);
+
+  return result
+    ? { message: 'Password changed successfully' }
+    : { message: 'Something went wrong' };
 };
 
 export const authServices = {
