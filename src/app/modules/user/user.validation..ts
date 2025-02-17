@@ -15,3 +15,14 @@ export const createUserValidationSchema = z.object({
     // }),
   }),
 });
+export const roleChangeValidationSchema = z.object({
+  body: z.object({
+    role: z.enum(['admin', 'customer']),
+  }),
+});
+
+export const statusChangeValidationSchema = z.object({
+  body: z.object({
+    status: z.enum(['in-progress', 'blocked']),
+  }),
+});

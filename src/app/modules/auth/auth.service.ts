@@ -88,7 +88,6 @@ const changePassword = async (
       passwordChangedAt: new Date(),
     },
   );
-  console.log(result);
 
   return result
     ? { message: 'Password changed successfully' }

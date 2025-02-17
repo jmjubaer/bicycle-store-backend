@@ -15,7 +15,6 @@ const auth = (...requiredRole: TUserRole[]) => {
       throw new AppError(401, 'You are not authorized !');
     }
     const decoded = verifyToken(token, config.jwt_access_secret as string);
-
     const { role, email } = decoded;
     req.user = decoded;
     const user = await User.findOne({ email: email });
