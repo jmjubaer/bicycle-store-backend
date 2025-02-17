@@ -2,15 +2,24 @@ import { TProduct } from './products.interface';
 import { ObjectId } from 'mongodb';
 // product model
 import { Product } from './products.model';
+import QueryBuilder from '../../builder/QueryBuilder';
 // add product into database
 const createProductIntoDb = async (product: TProduct) => {
   const result = await Product.create(product);
   return result;
 };
 // get all products form database
-const getAllProductsFromDb = async (filter: object) => {
-  const result = await Product.find(filter);
-  return result;
+const getAllProductsFromDb = async (query: Record<string, unknown>) => {
+  const productQuery = new QueryBuilder(Product.find(), query)
+    .fields()
+    .filter()
+    .paginate()
+    .sort()
+    .priceRange()
+    .search(['brand',"name","type"]);
+  const result = await productQuery.queryModel;
+  const meta = await productQuery.countTotal();
+  return { result, meta };
 };
 // get single product
 const getSingleProductsFromDb = async (id: string) => {
@@ -44,8 +53,8 @@ const updateProductsFromDb = async (id: string, updateData: TProduct) => {
 
 // delete product
 const deleteProductsFromDb = async (id: string) => {
-  const result = await Product.deleteOne({ _id: new ObjectId(id) });
-  if (result.deletedCount < 1) {
+  const result = await Product.findByIdAndDelete(id);
+  if (!result) {
     throw new Error('Product not found');
   }
   return result;
