@@ -14,13 +14,15 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 const getAllUser = catchAsync(async (req, res) => {
-  const result = await userServices.getAllUserFromDB();
+  const query = req.query;
+  const result = await userServices.getAllUserFromDB(query);
 
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: 'User get successfully',
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 const changeRole = catchAsync(async (req, res) => {

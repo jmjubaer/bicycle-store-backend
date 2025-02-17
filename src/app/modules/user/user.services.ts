@@ -1,3 +1,4 @@
+import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { TUser } from './user.interface';
 import { User } from './user.model';
@@ -6,9 +7,11 @@ const createUserIntoDB = async (user: TUser) => {
   const result = await User.create(user);
   return result;
 };
-const getAllUserFromDB = async () => {
-  const result = await User.find();
-  return result;
+const getAllUserFromDB = async (query: Record<string, unknown>) => {
+  const userQuery = new QueryBuilder(User.find(), query);
+  const result = await userQuery.queryModel;
+  const meta = await userQuery.countTotal();
+  return { result, meta };
 };
 const changeUserRoleFromDB = async (email: string, role: string) => {
   const isUserExist = await User.findOne({ email });
