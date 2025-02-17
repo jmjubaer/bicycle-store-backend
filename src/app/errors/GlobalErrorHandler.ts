@@ -6,7 +6,7 @@ import { ZodError } from 'zod';
 import config from '../config';
 import { TErrorSources } from '../interfaces/error';
 import handleZodError from './handleZodError';
-import handleValidationError from './handleAValidationError';
+import handleValidationError from './handleValidationError';
 import handleCastError from './handleCastError';
 import handleDuplicateError from './handleDuplicateError';
 import AppError from './AppError';

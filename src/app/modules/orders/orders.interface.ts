@@ -1,8 +1,20 @@
+import { Types } from 'mongoose';
+
 export type TOrder = {
-  email: string;
-  product: string;
+  _id: Types.ObjectId;
+  user: Types.ObjectId;
+  product: Types.ObjectId;
   quantity: number;
   totalPrice: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  transaction: {
+    id: string;
+    transactionStatus: string;
+    bank_status: string;
+    sp_code: string;
+    sp_message: string;
+    method: string;
+    date_time: string;
+  };
+  paymentStatus: 'pending' | 'paid' | 'cancelled';
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
 };

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { productRoutes } from './app/modules/products/products.routes';
-import { orderRoutes } from './app/modules/orders/order.routes';
+import { orderRoutes } from './app/modules/orders/orders.routes';
 import { userRoutes } from './app/modules/user/user.routes';
 import { authRoutes } from './app/modules/auth/auth.route';
 import { globalErrorHandler } from './app/errors/GlobalErrorHandler';
@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({credentials: true}));
+app.use(cors({ credentials: true }));
 app.use('/', productRoutes);
 app.use('/', orderRoutes);
 app.use('/', userRoutes);
@@ -21,6 +21,8 @@ app.get('/', (req, res) => {
 });
 
 // not  found error handler
+
+app.use(globalErrorHandler);
 app.all('*', (req, res) => {
   res.status(404).json({
     success: false,
@@ -28,14 +30,4 @@ app.all('*', (req, res) => {
   });
 });
 
-app.use(globalErrorHandler);
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
-  if (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Something went wrong',
-    });
-  }
-  next();
-});
 export default app;
