@@ -15,7 +15,11 @@ router.post(
   validateRequest(createUserValidationSchema),
   userControllers.createUser,
 );
-router.get('/api/users', userControllers.getAllUser);
+router.get(
+  '/api/users',
+  auth('admin', 'supperAdmin'),
+  userControllers.getAllUser,
+);
 router.post(
   '/api/users/change-role/:email',
   auth('admin', 'supperAdmin'),
@@ -27,6 +31,11 @@ router.post(
   auth('admin', 'supperAdmin'),
   validateRequest(statusChangeValidationSchema),
   userControllers.changeStatus,
+);
+router.get(
+  '/api/users/me',
+  auth('admin', 'customer', 'supperAdmin'),
+  userControllers.getMe,
 );
 
 export const userRoutes = router;

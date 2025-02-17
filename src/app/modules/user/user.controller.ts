@@ -49,10 +49,21 @@ const changeStatus = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getMe = catchAsync(async (req, res) => {
+  const { email } = req.user;
+  const result = await userServices.getMe(email);
 
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User getting successfully',
+    data: result,
+  });
+});
 export const userControllers = {
   createUser,
   getAllUser,
   changeRole,
   changeStatus,
+  getMe,
 };

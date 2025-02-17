@@ -6,7 +6,10 @@ import AppError from '../../errors/AppError';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
 import { TUserRole } from '../auth/auth.interface';
-import { verifyToken } from '../auth/auth.utils';
+import {
+  isJwtIssuedBeforeChangePassword,
+  verifyToken,
+} from '../auth/auth.utils';
 import { User } from '../user/user.model';
 const auth = (...requiredRole: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -15,7 +18,7 @@ const auth = (...requiredRole: TUserRole[]) => {
       throw new AppError(401, 'You are not authorized !');
     }
     const decoded = verifyToken(token, config.jwt_access_secret as string);
-    const { role, email } = decoded;
+    const { role, email,iat } = decoded;
     req.user = decoded;
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -29,15 +32,12 @@ const auth = (...requiredRole: TUserRole[]) => {
       throw new AppError(409, 'User is blocked');
     }
 
-    // if (
-    //   user?.passwordChangedAt &&
-    //   User.isJwtIssuedBeforeChangePassword(
-    //     user?.passwordChangedAt,
-    //     iat as number,
-    //   )
-    // ) {
-    //   throw new AppError(401, 'You are not authorized');
-    // }
+    if (
+      user?.passwordChangedAt &&
+      isJwtIssuedBeforeChangePassword(user?.passwordChangedAt, iat as number)
+    ) {
+      throw new AppError(401, 'You are not authorized');
+    }
 
     if (requiredRole && !requiredRole.includes(role)) {
       throw new AppError(401, 'You are not authorized');

@@ -31,3 +31,11 @@ export const verifyToken = (token: string, secret: string) => {
     throw new AppError(401, 'Token is expired');
   }
 };
+
+export const isJwtIssuedBeforeChangePassword = (
+  changePasswordTimeStamp: Date,
+  jwtIssuedTimeStamp: number,
+) => {
+  const passwordChangeAt = new Date(changePasswordTimeStamp).getTime() / 1000;
+  return passwordChangeAt > jwtIssuedTimeStamp;
+};

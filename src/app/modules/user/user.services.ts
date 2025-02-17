@@ -34,10 +34,15 @@ const changeUserStatusFromDB = async (email: string, status: string) => {
   );
   return result;
 };
+const getMe = async (email: string) => {
+  const result = await User.findOne({ email });
 
+  return result;
+};
 export const userServices = {
   createUserIntoDB,
   getAllUserFromDB,
   changeUserRoleFromDB,
-  changeUserStatusFromDB
+  changeUserStatusFromDB,
+  getMe,
 };
