@@ -1,5 +1,4 @@
 import { TProduct } from './products.interface';
-import { ObjectId } from 'mongodb';
 // product model
 import { Product } from './products.model';
 import QueryBuilder from '../../builder/QueryBuilder';
@@ -23,7 +22,7 @@ const getAllProductsFromDb = async (query: Record<string, unknown>) => {
 };
 // get single product
 const getSingleProductsFromDb = async (id: string) => {
-  const result = await Product.findOne({ _id: new ObjectId(id) });
+  const result = await Product.findById(id);
   if (!result?._id) {
     throw new Error('Product not found');
   }
@@ -33,18 +32,13 @@ const getSingleProductsFromDb = async (id: string) => {
 // update product
 const updateProductsFromDb = async (id: string, updateData: TProduct) => {
   // update product with given id with new data
-  await Product.updateOne(
-    { _id: new ObjectId(id) },
-    {
-      $set: {
-        ...updateData,
-        updatedAt: new Date(),
-      },
+  const updatedProduct = await Product.findByIdAndUpdate(id, {
+    $set: {
+      ...updateData,
+      updatedAt: new Date(),
     },
-  );
+  });
   // get the updated product
-
-  const updatedProduct = await Product.findOne({ _id: new ObjectId(id) });
   if (!updatedProduct) {
     throw new Error('Product not found');
   }
