@@ -2,7 +2,7 @@
 import mongoose from 'mongoose';
 import { Product } from '../products/products.model';
 import { TOrder } from './orders.interface';
-import { Orders } from './orders.model';
+import { Order } from './orders.model';
 import { ObjectId } from 'mongodb';
 import { User } from '../user/user.model';
 import AppError from '../../errors/AppError';
@@ -44,7 +44,7 @@ const createOrderIntoDb = async (order: TOrder, client_ip: string) => {
         { new: true, session },
       );
     }
-    let orderResponse = await Orders.create(
+    let orderResponse = await Order.create(
       [
         {
           ...order,
@@ -92,7 +92,7 @@ const verifyPayment = async (order_id: string) => {
   const verifiedPayment = await orderUtils.verifyPaymentAsync(order_id);
 
   if (verifiedPayment.length) {
-    await Orders.findOneAndUpdate(
+    await Order.findOneAndUpdate(
       {
         'transaction.id': order_id,
       },
@@ -118,12 +118,28 @@ const verifyPayment = async (order_id: string) => {
   return verifiedPayment;
 };
 const getAllOrders = async () => {
-  const data = await Orders.find().populate("user product");
+  const data = await Order.find().populate('user product');
   return data;
 };
-// add order into database
+const deleteOrderFromDb = async (id: string) => {
+  const result = await Order.findByIdAndDelete(id);
+  if (!result) {
+    throw new AppError(404, 'Order not found');
+  }
+  return result;
+};
+
+const changeOrderStatusIntoDB = async (id: string, status: string) => {
+  const isOrderExist = await Order.findById(id);
+  if (!isOrderExist) {
+    throw new AppError(404, 'Order not found');
+  }
+  const result = await Order.findByIdAndUpdate(id, { status }, { new: true });
+  return result;
+};
+
 const calculateRevenueFromOrder = async () => {
-  const totalRevenue = await Orders.aggregate([
+  const totalRevenue = await Order.aggregate([
     {
       // Convert string to ObjectId
       $addFields: {
@@ -163,4 +179,6 @@ export const orderService = {
   verifyPayment,
   getAllOrders,
   calculateRevenueFromOrder,
+  deleteOrderFromDb,
+  changeOrderStatusIntoDB,
 };

@@ -40,4 +40,4 @@ const orderSchema = new Schema<TOrder>(
   },
 );
 
-export const Orders = model<TOrder>('Order', orderSchema);
+export const Order = model<TOrder>('Order', orderSchema);

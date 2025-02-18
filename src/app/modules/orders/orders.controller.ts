@@ -44,9 +44,31 @@ const getAllOrders = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const deleteOrder = catchAsync(async (req, res) => {
+  const result = await orderService.deleteOrderFromDb(req.params.order_id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Delete order successfully',
+    data: result,
+  });
+});
+const changeOrderStatus = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const status = req.body.status;
+  const result = await orderService.changeOrderStatusIntoDB(id, status);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Change order successfully',
+    data: result,
+  });
+});
 export const orderControllers = {
   createOrder,
   getTotalRevenue,
   verifyPayment,
   getAllOrders,
+  deleteOrder,
+  changeOrderStatus,
 };

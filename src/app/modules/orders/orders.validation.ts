@@ -15,4 +15,14 @@ export const createOrderValidationSchema = z.object({
       .refine((val) => val > 0, { message: 'TotalPrice is required' }),
   }), // Optional string
 });
-
+export const changeOrderStatusSchema = z.object({
+  body: z.object({
+    status: z.enum([
+      'pending',
+      'processing',
+      'shipped',
+      'delivered',
+      'cancelled',
+    ]),
+  }), // Optional string
+});

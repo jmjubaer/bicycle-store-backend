@@ -2,7 +2,7 @@ import express from 'express';
 import { orderControllers } from './orders.controller';
 import auth from '../middlewares/auth';
 import validateRequest from '../middlewares/validateRequest';
-import { createOrderValidationSchema } from './orders.validation';
+import { changeOrderStatusSchema, createOrderValidationSchema } from './orders.validation';
 const router = express.Router();
 
 router.post(
@@ -16,10 +16,21 @@ router.get(
   auth('customer'),
   orderControllers.verifyPayment,
 );
+router.delete(
+  '/api/orders/:order_id',
+  auth('admin', 'supperAdmin'),
+  orderControllers.deleteOrder,
+);
 router.get(
   '/api/orders',
   auth('admin', 'supperAdmin'),
   orderControllers.getAllOrders,
+);
+router.patch(
+  '/api/orders/change-status/:id',
+  auth('admin', 'supperAdmin'),
+  validateRequest(changeOrderStatusSchema),
+  orderControllers.changeOrderStatus,
 );
 router.get(
   '/api/orders/revenue',
