@@ -14,12 +14,12 @@ const createOrderIntoDb = async (order: TOrder, client_ip: string) => {
   });
   // throw error if product is not found
   if (!productData) {
-    throw new AppError(204, 'Product not found');
+    throw new AppError(404, 'Product not found');
   }
   const user = await User.findById(order.user);
   // throw error if product is not found
   if (!user) {
-    throw new AppError(204, 'Product not found');
+    throw new AppError(404, 'Product not found');
   }
   // throw error if product is not available in stock or less than ordered quantity
   if (productData.quantity < order.quantity || productData.inStock === false) {

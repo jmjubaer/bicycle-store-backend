@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export type TProduct = {
   name: string;
   brand: string;
@@ -5,9 +7,10 @@ export type TProduct = {
   image: string;
   price: number;
   tag?: string;
-  type: 'Mountain' | 'Road' | 'Hybrid' | 'BMX' | 'Electric' | "Kids";
+  type: 'Mountain' | 'Road' | 'Hybrid' | 'BMX' | 'Electric' | 'Kids';
   description: string;
   quantity: number;
+  review: Types.ObjectId[];
   inStock: boolean;
   colors: string[];
 };

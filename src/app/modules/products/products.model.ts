@@ -14,6 +14,7 @@ const productSchema = new Schema<TProduct>(
       required: true,
     },
     tag: { type: String },
+    review: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
     description: { type: String, required: true },
     quantity: { type: Number, required: true },
     inStock: { type: Boolean, required: true, default: true },
