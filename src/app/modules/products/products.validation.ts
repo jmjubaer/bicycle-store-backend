@@ -7,7 +7,7 @@ export const createProductValidationSchema = z.object({
     model: z.string({ required_error: 'Model is required' }),
     image: z.string({ required_error: 'Product image is required' }),
     price: z.number().positive('Price must be a positive number'),
-    type: z.enum(['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric'], {
+    type: z.enum(['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric', 'Kids'], {
       message: '{VALUE} is an invalid type',
     }),
     description: z.string({ required_error: 'Description is required' }), // Description should not be empty
@@ -16,6 +16,7 @@ export const createProductValidationSchema = z.object({
       .int()
       .nonnegative('Quantity must be a positive number'), // Ensures quantity is a non-negative integer
     inStock: z.boolean().default(true),
+    colors: z.array(z.string()).nonempty('At least one color is required'),
   }),
 });
 
@@ -24,10 +25,11 @@ export const updateProductValidationSchema = z.object({
     name: z.string({ required_error: 'Name is required' }).optional(),
     brand: z.string({ required_error: 'Brand is required' }).optional(),
     model: z.string({ required_error: 'Model is required' }).optional(),
+    tag: z.string({ required_error: 'Tag is required' }).optional(),
     image: z.string({ required_error: 'Product image is required' }).optional(),
     price: z.number().positive('Price must be a positive number').optional(),
     type: z
-      .enum(['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric'], {
+      .enum(['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric', 'Kids'], {
         message: '{VALUE} is an invalid type',
       })
       .optional(),
@@ -40,5 +42,9 @@ export const updateProductValidationSchema = z.object({
       .nonnegative('Quantity must be a positive number')
       .optional(), // Ensures quantity is a non-negative integer
     inStock: z.boolean().default(true).optional(),
+    colors: z
+      .array(z.string())
+      .nonempty('At least one color is required')
+      .optional(),
   }),
 });

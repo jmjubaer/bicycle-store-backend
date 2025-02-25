@@ -10,25 +10,25 @@ const router = express.Router();
 
 // create product routes for add products into database
 router.post(
-  '/api/products',
+  '/products',
   auth('admin', 'supperAdmin'),
   validateRequest(createProductValidationSchema),
   productControllers.createProduct,
 );
 // routes for get products
-router.get('/api/products', productControllers.getAllProducts);
+router.get('/products', productControllers.getAllProducts);
 //  routes for get single data
-router.get('/api/products/:productId', productControllers.getSingleProducts);
+router.get('/products/:productId', productControllers.getSingleProducts);
 // routes for update product
 router.put(
-  '/api/products/:productId',
+  '/products/:productId',
   auth('admin', 'supperAdmin'),
   validateRequest(updateProductValidationSchema),
   productControllers.updateProduct,
 );
 // routes for delete product
 router.delete(
-  '/api/products/:productId',
+  '/products/:productId',
   auth('admin', 'supperAdmin'),
   productControllers.deleteProduct,
 );

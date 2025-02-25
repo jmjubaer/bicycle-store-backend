@@ -7,15 +7,17 @@ import { orderRoutes } from './app/modules/orders/orders.routes';
 import { userRoutes } from './app/modules/user/user.routes';
 import { authRoutes } from './app/modules/auth/auth.route';
 import { globalErrorHandler } from './app/errors/GlobalErrorHandler';
+import { reviewRoutes } from './app/modules/reviews/review.route';
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ credentials: true }));
-app.use('/', productRoutes);
-app.use('/', orderRoutes);
-app.use('/', userRoutes);
-app.use('/', authRoutes);
+app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
+app.use('/api', productRoutes);
+app.use('/api', orderRoutes);
+app.use('/api', userRoutes);
+app.use('/api', authRoutes);
+app.use('/api', reviewRoutes);
 app.get('/', (req, res) => {
   res.send('By-cycle store server is running');
 });

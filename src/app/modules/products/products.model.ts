@@ -10,12 +10,14 @@ const productSchema = new Schema<TProduct>(
     price: { type: Number, required: true },
     type: {
       type: String,
-      enum: ['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric'],
+      enum: ['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric', 'Kids'],
       required: true,
     },
+    tag: { type: String },
     description: { type: String, required: true },
     quantity: { type: Number, required: true },
     inStock: { type: Boolean, required: true, default: true },
+    colors: { type: [String], required: true },
   },
   {
     timestamps: true,

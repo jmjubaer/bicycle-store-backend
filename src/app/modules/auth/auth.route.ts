@@ -11,18 +11,18 @@ const router = express.Router();
 
 // create product routes for add products into database
 router.post(
-  '/api/auth/login',
+  '/auth/login',
   validateRequest(loginValidationSchema),
   authControllers.loginUser,
 );
 router.post(
-  '/api/auth/change-password',
+  '/auth/change-password',
   auth('customer', 'admin', 'supperAdmin'),
   validateRequest(changePasswordValidationSchema),
   authControllers.changePassword,
 );
 router.get(
-  '/api/auth/refresh-token',
+  '/auth/refresh-token',
   validateRequest(refreshTokenValidationSchema),
   authControllers.refreshToken,
 );

@@ -6,34 +6,34 @@ import { changeOrderStatusSchema, createOrderValidationSchema } from './orders.v
 const router = express.Router();
 
 router.post(
-  '/api/orders',
+  '/orders',
   auth('customer'),
   validateRequest(createOrderValidationSchema),
   orderControllers.createOrder,
 );
 router.get(
-  '/api/orders/verify-payment/:order_id',
+  '/orders/verify-payment/:order_id',
   auth('customer'),
   orderControllers.verifyPayment,
 );
 router.delete(
-  '/api/orders/:order_id',
+  '/orders/:order_id',
   auth('admin', 'supperAdmin'),
   orderControllers.deleteOrder,
 );
 router.get(
-  '/api/orders',
+  '/orders',
   auth('admin', 'supperAdmin'),
   orderControllers.getAllOrders,
 );
 router.patch(
-  '/api/orders/change-status/:id',
+  '/orders/change-status/:id',
   auth('admin', 'supperAdmin'),
   validateRequest(changeOrderStatusSchema),
   orderControllers.changeOrderStatus,
 );
 router.get(
-  '/api/orders/revenue',
+  '/orders/revenue',
   auth('admin', 'supperAdmin'),
   orderControllers.getTotalRevenue,
 );
