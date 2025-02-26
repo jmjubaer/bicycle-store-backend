@@ -35,10 +35,9 @@ const createReviewIntoDb = async (data: TReview) => {
     // Push the new review ID to the product's review array
     await Product.findByIdAndUpdate(
       data.product,
-      { $push: { review: review._id } }, // Push the review ID
+      { $push: { reviews: review._id } }, // Push the review ID
       { new: true, session },
     );
-
     await session.commitTransaction();
     await session.endSession();
 
@@ -50,7 +49,10 @@ const createReviewIntoDb = async (data: TReview) => {
   }
 };
 const getAllReviewsFromDb = async (query: Record<string, unknown>) => {
-  const reviewQuery = new QueryBuilder(Review.find(), query)
+  const reviewQuery = new QueryBuilder(
+    Review.find().populate('reviewer product'),
+    query,
+  )
     .fields()
     .filter()
     .paginate();
@@ -59,7 +61,9 @@ const getAllReviewsFromDb = async (query: Record<string, unknown>) => {
   return { result, meta };
 };
 const getReviewsForProductFromDb = async (productId: string) => {
-  const result = await Review.find({ product: productId });
+  const result = await Review.find({ product: productId }).populate(
+    'reviewer product',
+  );
   return result;
 };
 // For bad review
@@ -77,7 +81,7 @@ const deleteReviewFromDb = async (id: string) => {
     // Remove the review reference from the associated product
     await Product.findByIdAndUpdate(
       review.product,
-      { $pull: { review: new Types.ObjectId(id) } },
+      { $pull: { reviews: new Types.ObjectId(id) } },
       { session },
     );
 

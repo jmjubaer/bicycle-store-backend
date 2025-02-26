@@ -35,6 +35,16 @@ const getSingleProducts = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getRelatedProducts = catchAsync(async (req, res) => {
+  const { productId } = req.params;
+  const result = await productServices.getRelatedProductsFromDb(productId);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Bicycles retrieved successfully',
+    data: result,
+  });
+});
 
 const updateProduct = catchAsync(async (req, res) => {
   const { productId } = req.params;
@@ -69,4 +79,5 @@ export const productControllers = {
   getSingleProducts,
   updateProduct,
   deleteProduct,
+  getRelatedProducts,
 };

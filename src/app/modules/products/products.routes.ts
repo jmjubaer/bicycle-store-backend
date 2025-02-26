@@ -19,6 +19,10 @@ router.post(
 router.get('/products', productControllers.getAllProducts);
 //  routes for get single data
 router.get('/products/:productId', productControllers.getSingleProducts);
+router.get(
+  '/products/related-product/:productId',
+  productControllers.getRelatedProducts,
+);
 // routes for update product
 router.put(
   '/products/:productId',
