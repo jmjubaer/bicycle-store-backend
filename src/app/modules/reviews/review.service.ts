@@ -23,7 +23,7 @@ const createReviewIntoDb = async (data: TReview) => {
     product: data.product,
   });
   if (isExistReviewOnSameProductBySameUser.length > 0) {
-    throw new AppError(401, 'You already give review on this product');
+    throw new AppError(400, 'You already give review on this product');
   }
   const session = await mongoose.startSession();
 

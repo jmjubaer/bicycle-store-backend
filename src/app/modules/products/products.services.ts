@@ -47,7 +47,7 @@ const getRelatedProductsFromDb = async (productId: string) => {
   const relatedProducts = await Product.find({
     type: currentProduct.type, // Match products of the same category
     _id: { $ne: productId }, // Exclude the current product
-  });
+  }).populate('reviews');
 
   return relatedProducts;
 };

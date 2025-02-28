@@ -33,7 +33,7 @@ router.post(
   userControllers.changeStatus,
 );
 router.get(
-  '/users/me',
+  '/user/me',
   auth('admin', 'customer', 'supperAdmin'),
   userControllers.getMe,
 );

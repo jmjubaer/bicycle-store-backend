@@ -13,6 +13,15 @@ const orderSchema = new Schema<TOrder>(
       ref: 'Product',
       required: [true, 'Product is required'],
     },
+    deliveryAddress: {
+      fullName: { type: String, required: true, trim: true },
+      phoneNumber: { type: String, required: true, trim: true },
+      localAddress: { type: String, required: true, trim: true },
+      city: { type: String, required: true, trim: true },
+      district: { type: String, required: true, trim: true },
+      thana: { type: String, required: true, trim: true },
+      postalCode: { type: String, required: true, trim: true, minlength: 4 },
+    },
     quantity: { type: Number, required: [true, 'Quantity is required'] },
     totalPrice: { type: Number, required: [true, 'Total Price is required'] },
     paymentStatus: {
