@@ -19,7 +19,7 @@ const createOrderIntoDb = async (order: TOrder, client_ip: string) => {
   const user = await User.findById(order.user);
   // throw error if product is not found
   if (!user) {
-    throw new AppError(404, 'Product not found');
+    throw new AppError(404, 'User not found');
   }
   // throw error if product is not available in stock or less than ordered quantity
   if (productData.quantity < order.quantity || productData.inStock === false) {
@@ -64,6 +64,11 @@ const createOrderIntoDb = async (order: TOrder, client_ip: string) => {
       customer_city: 'Dhaka',
       client_ip,
     };
+    if (order.paymentMethod === 'COD') {
+      await session.commitTransaction();
+      await session.endSession();
+      return 'Order complete. Waiting for payment';
+    }
 
     const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
 
@@ -81,7 +86,7 @@ const createOrderIntoDb = async (order: TOrder, client_ip: string) => {
     await session.commitTransaction();
     await session.endSession();
 
-    return payment.checkout_url;
+    return { paymentUrl: payment.checkout_url };
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();

@@ -14,7 +14,7 @@ const orderSchema = new Schema<TOrder>(
       required: [true, 'Product is required'],
     },
     deliveryAddress: {
-      fullName: { type: String, required: true, trim: true },
+      name: { type: String, required: true, trim: true },
       phoneNumber: { type: String, required: true, trim: true },
       localAddress: { type: String, required: true, trim: true },
       city: { type: String, required: true, trim: true },

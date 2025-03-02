@@ -1,12 +1,12 @@
 import { Types } from 'mongoose';
-type DeliveryAddress = {
-  fullName: string;
+export type TDeliveryAddress = {
+  name: string;
   phoneNumber: string;
   localAddress: string;
   city: string;
   district: string;
   thana: string;
-  postalCode: string;
+  postalCode: number;
 };
 export type TOrder = {
   _id: Types.ObjectId;
@@ -14,7 +14,7 @@ export type TOrder = {
   product: Types.ObjectId;
   quantity: number;
   totalPrice: number;
-  deliveryAddress?: DeliveryAddress;
+  deliveryAddress?: TDeliveryAddress;
   transaction: {
     id: string;
     transactionStatus: string;
@@ -24,6 +24,7 @@ export type TOrder = {
     method: string;
     date_time: string;
   };
+  paymentMethod: "COD" | "surjopay";
   paymentStatus: 'pending' | 'paid' | 'cancelled';
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
 };

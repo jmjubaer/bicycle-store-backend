@@ -5,7 +5,7 @@ export const createOrderValidationSchema = z.object({
     user: z.string({ required_error: 'User is required' }),
     product: z.string({ required_error: 'Product is required' }),
     deliveryAddress: z.object({
-      fullName: z.string().min(1, 'Full name is required'),
+      name: z.string().min(1, 'Full name is required'),
       phoneNumber: z
         .string()
         .min(10, 'Phone number must be at least 10 digits'),
@@ -14,7 +14,7 @@ export const createOrderValidationSchema = z.object({
       district: z.string().min(1, 'District is required'),
       thana: z.string().min(1, 'Thana is required'),
       postalCode: z
-        .string()
+        .number()
         .min(4, 'Postal code must be at least 4 characters'),
     }),
     quantity: z
