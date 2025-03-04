@@ -51,6 +51,19 @@ const changeStatus = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const updateUserName = catchAsync(async (req, res) => {
+  const result = await userServices.updateNameIntoDB(
+    req.user.email,
+    req.body.name,
+  );
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Name updated successfully',
+    data: result,
+  });
+});
 const getMe = catchAsync(async (req, res) => {
   const { email } = req.user;
   const result = await userServices.getMe(email);
@@ -68,4 +81,5 @@ export const userControllers = {
   changeRole,
   changeStatus,
   getMe,
+  updateUserName,
 };

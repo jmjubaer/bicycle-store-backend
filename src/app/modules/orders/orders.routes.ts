@@ -2,7 +2,10 @@ import express from 'express';
 import { orderControllers } from './orders.controller';
 import auth from '../middlewares/auth';
 import validateRequest from '../middlewares/validateRequest';
-import { changeOrderStatusSchema, createOrderValidationSchema } from './orders.validation';
+import {
+  changeOrderStatusSchema,
+  createOrderValidationSchema,
+} from './orders.validation';
 const router = express.Router();
 
 router.post(
@@ -26,6 +29,7 @@ router.get(
   auth('admin', 'supperAdmin'),
   orderControllers.getAllOrders,
 );
+router.get('/my-orders', auth('customer'), orderControllers.getMyOrders);
 router.patch(
   '/orders/change-status/:id',
   auth('admin', 'supperAdmin'),

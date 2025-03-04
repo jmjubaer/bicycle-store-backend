@@ -5,6 +5,7 @@ import {
   createUserValidationSchema,
   roleChangeValidationSchema,
   statusChangeValidationSchema,
+  userNameChangeValidationSchema,
 } from './user.validation.';
 import auth from '../middlewares/auth';
 const router = express.Router();
@@ -15,11 +16,7 @@ router.post(
   validateRequest(createUserValidationSchema),
   userControllers.createUser,
 );
-router.get(
-  '/users',
-  auth('admin', 'supperAdmin'),
-  userControllers.getAllUser,
-);
+router.get('/users', auth('admin', 'supperAdmin'), userControllers.getAllUser);
 router.post(
   '/users/change-role/:email',
   auth('admin', 'supperAdmin'),
@@ -36,6 +33,12 @@ router.get(
   '/user/me',
   auth('admin', 'customer', 'supperAdmin'),
   userControllers.getMe,
+);
+router.patch(
+  '/user/update-name',
+  validateRequest(userNameChangeValidationSchema),
+  auth('admin', 'customer', 'supperAdmin'),
+  userControllers.updateUserName,
 );
 
 export const userRoutes = router;

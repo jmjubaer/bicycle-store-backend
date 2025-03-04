@@ -122,8 +122,17 @@ const verifyPayment = async (order_id: string) => {
 
   return verifiedPayment;
 };
-const getAllOrders = async () => {
+const getAllOrdersFromDb = async () => {
   const data = await Order.find().populate('user product');
+  return data;
+};
+const getMyOrdersFromDb = async (email: string) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new AppError(404, 'User not found');
+  }
+  const data = await Order.find({ user: user?._id }).populate('product');
+
   return data;
 };
 const deleteOrderFromDb = async (id: string) => {
@@ -182,8 +191,9 @@ const calculateRevenueFromOrder = async () => {
 export const orderService = {
   createOrderIntoDb,
   verifyPayment,
-  getAllOrders,
+  getAllOrdersFromDb,
   calculateRevenueFromOrder,
   deleteOrderFromDb,
   changeOrderStatusIntoDB,
+  getMyOrdersFromDb,
 };

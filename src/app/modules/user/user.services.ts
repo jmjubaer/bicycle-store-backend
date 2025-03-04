@@ -47,10 +47,23 @@ const getMe = async (email: string) => {
 
   return result;
 };
+const updateNameIntoDB = async (email: string, name: string) => {
+  const isUserExist = await User.findOne({ email });
+  if (!isUserExist) {
+    throw new AppError(404, 'User not found');
+  }
+  const result = await User.findOneAndUpdate(
+    { email },
+    { name },
+    { new: true },
+  );
+  return result;
+};
 export const userServices = {
+  getMe,
+  updateNameIntoDB,
   createUserIntoDB,
   getAllUserFromDB,
   changeUserRoleFromDB,
   changeUserStatusFromDB,
-  getMe,
 };

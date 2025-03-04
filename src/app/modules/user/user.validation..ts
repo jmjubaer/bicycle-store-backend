@@ -26,3 +26,8 @@ export const statusChangeValidationSchema = z.object({
     status: z.enum(['in-progress', 'blocked']),
   }),
 });
+export const userNameChangeValidationSchema = z.object({
+  body: z.object({
+    name: z.string({required_error: "Name is required"}),
+  }),
+});

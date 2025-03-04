@@ -25,6 +25,6 @@ export type TOrder = {
     date_time: string;
   };
   paymentMethod: "COD" | "surjopay";
-  paymentStatus: 'pending' | 'paid' | 'cancelled';
+  paymentStatus: 'unpaid' | 'paid';
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
 };
