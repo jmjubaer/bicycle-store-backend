@@ -15,7 +15,7 @@ router.post(
   orderControllers.createOrder,
 );
 router.get(
-  '/orders/verify-payment/:order_id',
+  '/orders/verify-payment',
   auth('customer'),
   orderControllers.verifyPayment,
 );

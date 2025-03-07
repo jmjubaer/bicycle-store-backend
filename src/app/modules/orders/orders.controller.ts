@@ -15,8 +15,8 @@ const createOrder = catchAsync(async (req, res) => {
   });
 });
 const verifyPayment = catchAsync(async (req, res) => {
-  const { order_id } = req.params;
-  const result = await orderService.verifyPayment(order_id);
+  const { order_id } = req.query;
+  const result = await orderService.verifyPayment(order_id as string);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -37,12 +37,13 @@ const getTotalRevenue = catchAsync(async (req, res) => {
 });
 
 const getAllOrders = catchAsync(async (req, res) => {
-  const result = await orderService.getAllOrdersFromDb();
+  const result = await orderService.getAllOrdersFromDb(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: 'Get all order successfully',
-    data: result,
+    data: result.data,
+    meta: result.meta,
   });
 });
 

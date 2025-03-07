@@ -13,7 +13,7 @@ const orderSchema = new Schema<TOrder>(
       ref: 'Product',
       required: [true, 'Product is required'],
     },
-    deliveryAddress: {
+    deliveryInfo: {
       name: { type: String, required: true, trim: true },
       phoneNumber: { type: String, required: true, trim: true },
       localAddress: { type: String, required: true, trim: true },

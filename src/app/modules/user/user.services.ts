@@ -13,7 +13,7 @@ const getAllUserFromDB = async (query: Record<string, unknown>) => {
     .fields()
     .filter()
     .sort()
-    .search(['name']);
+    .search(['name', "email"]);
   const result = await userQuery.queryModel;
   const meta = await userQuery.countTotal();
   return { result, meta };

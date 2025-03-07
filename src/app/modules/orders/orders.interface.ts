@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-export type TDeliveryAddress = {
+export type TDeliveryInfo = {
   name: string;
   phoneNumber: string;
   localAddress: string;
@@ -14,7 +14,7 @@ export type TOrder = {
   product: Types.ObjectId;
   quantity: number;
   totalPrice: number;
-  deliveryAddress?: TDeliveryAddress;
+  deliveryInfo?: TDeliveryInfo;
   transaction: {
     id: string;
     transactionStatus: string;

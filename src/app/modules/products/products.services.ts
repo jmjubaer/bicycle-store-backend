@@ -52,14 +52,13 @@ const getRelatedProductsFromDb = async (productId: string) => {
   return relatedProducts;
 };
 // update product
-const updateProductsFromDb = async (id: string, updateData: TProduct) => {
+const updateProductsFromDb = async (id: string, payload: TProduct) => {
   // update product with given id with new data
-  const updatedProduct = await Product.findByIdAndUpdate(id, {
-    $set: {
-      ...updateData,
-      updatedAt: new Date(),
-    },
-  });
+  const updatedProduct = await Product.findByIdAndUpdate(
+    id,
+    { ...payload },
+    { new: true },
+  );
   // get the updated product
   if (!updatedProduct) {
     throw new Error('Product not found');

@@ -4,7 +4,7 @@ export const createOrderValidationSchema = z.object({
   body: z.object({
     user: z.string({ required_error: 'User is required' }),
     product: z.string({ required_error: 'Product is required' }),
-    deliveryAddress: z.object({
+    deliveryInfo: z.object({
       name: z.string().min(1, 'Full name is required'),
       phoneNumber: z
         .string()

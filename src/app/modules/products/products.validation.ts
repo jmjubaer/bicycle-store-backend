@@ -22,29 +22,11 @@ export const createProductValidationSchema = z.object({
 
 export const updateProductValidationSchema = z.object({
   body: z.object({
-    name: z.string({ required_error: 'Name is required' }).optional(),
-    brand: z.string({ required_error: 'Brand is required' }).optional(),
-    model: z.string({ required_error: 'Model is required' }).optional(),
-    tag: z.string({ required_error: 'Tag is required' }).optional(),
-    image: z.string({ required_error: 'Product image is required' }).optional(),
-    price: z.number().positive('Price must be a positive number').optional(),
-    type: z
-      .enum(['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric', 'Kids'], {
-        message: '{VALUE} is an invalid type',
-      })
-      .optional(),
-    description: z
-      .string({ required_error: 'Description is required' })
-      .optional(), // Description should not be empty
+    price: z.number().positive('Price must be a positive number'),
+
     quantity: z
       .number()
       .int()
-      .nonnegative('Quantity must be a positive number')
-      .optional(), // Ensures quantity is a non-negative integer
-    inStock: z.boolean().default(true).optional(),
-    colors: z
-      .array(z.string())
-      .nonempty('At least one color is required')
-      .optional(),
+      .nonnegative('Quantity must be a positive number'), // Ensures quantity is a non-negative integer
   }),
 });
