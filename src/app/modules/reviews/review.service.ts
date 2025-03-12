@@ -98,10 +98,20 @@ const deleteReviewFromDb = async (id: string) => {
     throw new AppError(500, err.message);
   }
 };
-
+const getMyReviewsFromDb = async (email: string) => {
+  const isUserExist = await User.findOne({ email });
+  if (!isUserExist) {
+    throw new AppError(404, 'User not found');
+  }
+  const result = await Review.find({ reviewer: isUserExist?._id }).populate(
+    'reviewer product',
+  );
+  return result;
+};
 export const reviewServices = {
   createReviewIntoDb,
   getAllReviewsFromDb,
   getReviewsForProductFromDb,
   deleteReviewFromDb,
+  getMyReviewsFromDb,
 };

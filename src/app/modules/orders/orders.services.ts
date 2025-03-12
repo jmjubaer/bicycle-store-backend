@@ -23,8 +23,11 @@ const createOrderIntoDb = async (order: TOrder, client_ip: string) => {
     throw new AppError(404, 'User not found');
   }
   // throw error if product is not available in stock or less than ordered quantity
-  if (productData.quantity < order.quantity || productData.inStock === false) {
-    throw new AppError(406, 'Insufficient stock, product is not available');
+  if (productData.quantity < order.quantity) {
+    throw new AppError(406, 'Expected quantity to be more than from stock');
+  }
+  if (productData.inStock === false) {
+    throw new AppError(406, 'Out Of stock');
   }
   const session = await mongoose.startSession();
 
@@ -133,7 +136,7 @@ const getAllOrdersFromDb = async (query: Record<string, unknown>) => {
     .filter();
   const data = await orderQuery.queryModel;
   const meta = await orderQuery.countTotal();
-  return {data,meta};
+  return { data, meta };
 };
 const getMyOrdersFromDb = async (email: string) => {
   const user = await User.findOne({ email });

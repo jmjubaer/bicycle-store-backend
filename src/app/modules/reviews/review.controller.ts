@@ -42,10 +42,20 @@ const deleteReview = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
+const getMyReviews = catchAsync(async (req, res) => {
+  const { email } = req.user || {};
+  const result = await reviewServices.getMyReviewsFromDb(email);
+  return sendResponse(res, {
+    statusCode: 200,
+    message: 'Review retrieved successfully',
+    success: true,
+    data: result,
+  });
+});
 export const reviewControllers = {
   createReview,
   getAllReviews,
   getProductReviews,
   deleteReview,
+  getMyReviews,
 };

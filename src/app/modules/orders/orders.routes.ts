@@ -38,7 +38,7 @@ router.patch(
 );
 router.get(
   '/orders/revenue',
-  auth('admin', 'supperAdmin'),
+  // auth('admin', 'supperAdmin'),
   orderControllers.getTotalRevenue,
 );
 export const orderRoutes = router;

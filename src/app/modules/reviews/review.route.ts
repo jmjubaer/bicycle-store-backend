@@ -17,4 +17,5 @@ router.delete(
   auth('admin', 'supperAdmin'),
   reviewControllers.deleteReview,
 );
+router.get('/my-reviews',auth("customer"), reviewControllers.getMyReviews);
 export const reviewRoutes = router;

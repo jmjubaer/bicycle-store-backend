@@ -18,7 +18,7 @@ const getAllProductsFromDb = async (query: Record<string, unknown>) => {
     .paginate()
     .sort()
     .priceRange()
-    .search(['brand', 'name', 'type']);
+    .search(['brand', 'name', 'type', 'model']);
   const result = await productQuery.queryModel;
   const meta = await productQuery.countTotal();
   return { result, meta };
@@ -54,11 +54,26 @@ const getRelatedProductsFromDb = async (productId: string) => {
 // update product
 const updateProductsFromDb = async (id: string, payload: TProduct) => {
   // update product with given id with new data
-  const updatedProduct = await Product.findByIdAndUpdate(
-    id,
-    { ...payload },
-    { new: true },
-  );
+  let updatedProduct;
+  if (payload?.quantity && payload?.quantity > 0) {
+    updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { price: payload.price, quantity: payload.quantity, inStock: true },
+      { new: true },
+    );
+  } else if (payload?.quantity == 0) {
+    updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { ...payload, inStock: false },
+      { new: true },
+    );
+  } else {
+    updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { ...payload },
+      { new: true },
+    );
+  }
   // get the updated product
   if (!updatedProduct) {
     throw new Error('Product not found');

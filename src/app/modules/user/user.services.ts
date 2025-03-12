@@ -1,5 +1,7 @@
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
+import { Order } from '../orders/orders.model';
+import { Product } from '../products/products.model';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 
@@ -13,7 +15,7 @@ const getAllUserFromDB = async (query: Record<string, unknown>) => {
     .fields()
     .filter()
     .sort()
-    .search(['name', "email"]);
+    .search(['name', 'email']);
   const result = await userQuery.queryModel;
   const meta = await userQuery.countTotal();
   return { result, meta };
@@ -59,6 +61,16 @@ const updateNameIntoDB = async (email: string, name: string) => {
   );
   return result;
 };
+const getAllActivitySummeryFromDb = async () => {
+  const users = await User.find().select('createdAt');
+  const products = await Product.find().select('createdAt');
+  const orders = await Order.find().select('createdAt');
+  return {
+    totalUsers: users,
+    totalProducts: products,
+    totalOrders: orders,
+  };
+};
 export const userServices = {
   getMe,
   updateNameIntoDB,
@@ -66,4 +78,5 @@ export const userServices = {
   getAllUserFromDB,
   changeUserRoleFromDB,
   changeUserStatusFromDB,
+  getAllActivitySummeryFromDb,
 };

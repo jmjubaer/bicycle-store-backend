@@ -40,5 +40,10 @@ router.patch(
   auth('admin', 'customer', 'supperAdmin'),
   userControllers.updateUserName,
 );
+router.get(
+  '/activity-summary',
+  // auth('admin', 'customer', 'supperAdmin'),
+  userControllers.getAllActivitiesSummery,
+);
 
 export const userRoutes = router;

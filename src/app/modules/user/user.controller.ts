@@ -65,13 +65,23 @@ const updateUserName = catchAsync(async (req, res) => {
   });
 });
 const getMe = catchAsync(async (req, res) => {
-  const { email } = req.user;
+  const { email } = req.user || {};
   const result = await userServices.getMe(email);
 
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: 'User getting successfully',
+    data: result,
+  });
+});
+const getAllActivitiesSummery = catchAsync(async (req, res) => {
+  const result = await userServices.getAllActivitySummeryFromDb();
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Summery getting successfully',
     data: result,
   });
 });
@@ -82,4 +92,5 @@ export const userControllers = {
   changeStatus,
   getMe,
   updateUserName,
+  getAllActivitiesSummery,
 };
