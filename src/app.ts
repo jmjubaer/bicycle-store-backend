@@ -12,7 +12,12 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
+app.use(
+  cors({
+    origin: ['https://bi-cycles-store-app.vercel.app'],
+    credentials: true,
+  }),
+);
 
 // routes =====
 app.use('/api', productRoutes);
@@ -23,7 +28,6 @@ app.use('/api', reviewRoutes);
 app.get('/', (req, res) => {
   res.send('By-cycle store server is running');
 });
-
 
 // global error handler =====
 app.use(globalErrorHandler);
