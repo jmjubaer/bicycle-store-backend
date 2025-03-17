@@ -7,6 +7,7 @@ class QueryBuilder<T> {
     this.queryModel = queryModel;
     this.query = query;
   }
+  // search query
   search(searchAbleFields: string[]) {
     const searchTerm = this?.query?.searchTerm;
     if (searchTerm) {
@@ -21,7 +22,7 @@ class QueryBuilder<T> {
     }
     return this;
   }
-
+// filter query
   filter() {
     const queryObj = { ...this.query };
     const excludeField = [
@@ -37,12 +38,14 @@ class QueryBuilder<T> {
     this.queryModel = this.queryModel.find(queryObj as FilterQuery<T>);
     return this;
   }
+  // sort query
   sort() {
     const sort =
       (this?.query?.sort as string)?.split(',')?.join(' ') || '-createdAt';
     this.queryModel = this.queryModel.sort(sort as string);
     return this;
   }
+  // pagination query
   paginate() {
     const limit = Number(this?.query?.limit) || 10;
     const page = Number(this?.query?.page) || 1;
@@ -51,12 +54,14 @@ class QueryBuilder<T> {
     this.queryModel = this.queryModel.skip(skip).limit(limit);
     return this;
   }
+  // fields query
   fields() {
     const fields =
       (this?.query?.fields as string)?.split(',')?.join(' ') || '-__v';
     this.queryModel = this?.queryModel.select(fields);
     return this;
   }
+  // price range query
   priceRange() {
     const minPrice = Number(this.query?.minPrice);
     const maxPrice = Number(this.query?.maxPrice);
@@ -73,6 +78,7 @@ class QueryBuilder<T> {
 
     return this;
   }
+  // count total query for meta data
   async countTotal() {
     const totalQueries = this.queryModel.getFilter();
     const total = await this.queryModel.model.countDocuments(totalQueries);

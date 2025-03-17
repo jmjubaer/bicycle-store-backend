@@ -1,6 +1,6 @@
 import config from '../config';
 import { User } from '../modules/user/user.model';
-
+// Supper admin seeding functionality
 const supperAdminData = {
   name: 'Super Admin',
   password: config.supper_admin_password,

@@ -13,6 +13,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
+
+// routes =====
 app.use('/api', productRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', userRoutes);
@@ -22,9 +24,11 @@ app.get('/', (req, res) => {
   res.send('By-cycle store server is running');
 });
 
-// not  found error handler
 
+// global error handler =====
 app.use(globalErrorHandler);
+
+// not found error handler =====
 app.all('*', (req, res) => {
   res.status(404).json({
     success: false,
