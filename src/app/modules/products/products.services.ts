@@ -45,7 +45,7 @@ const getRelatedProductsFromDb = async (productId: string) => {
 
   // Fetch related products with the same category/type, excluding the current product
   const relatedProducts = await Product.find({
-    type: currentProduct.type, // Match products of the same category
+    category: currentProduct.category, // Match products of the same category
     _id: { $ne: productId }, // Exclude the current product
   }).populate('reviews');
 

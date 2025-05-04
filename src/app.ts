@@ -8,13 +8,14 @@ import { userRoutes } from './app/modules/user/user.routes';
 import { authRoutes } from './app/modules/auth/auth.route';
 import { globalErrorHandler } from './app/errors/GlobalErrorHandler';
 import { reviewRoutes } from './app/modules/reviews/review.route';
+import { categoryRoutes } from './app/modules/category/category.route';
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ['https://bi-cycles-store-app.vercel.app'],
+    origin: ['https://bi-cycles-store-app.vercel.app', 'http://localhost:5173'],
     credentials: true,
   }),
 );
@@ -25,6 +26,7 @@ app.use('/api', orderRoutes);
 app.use('/api', userRoutes);
 app.use('/api', authRoutes);
 app.use('/api', reviewRoutes);
+app.use('/api', categoryRoutes);
 app.get('/', (req, res) => {
   res.send('By-cycle store server is running');
 });

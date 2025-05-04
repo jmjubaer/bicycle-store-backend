@@ -27,6 +27,7 @@ const loginUser = async (payload: TLoginUser) => {
     payload?.password,
     user?.password,
   );
+  
   if (!isPasswordMatched) {
     throw new AppError(403, 'Incorrect password');
   }

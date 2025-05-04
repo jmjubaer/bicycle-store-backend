@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
 export type TProduct = {
   name: string;
@@ -7,7 +7,7 @@ export type TProduct = {
   image: string;
   price: number;
   tag?: string;
-  type: 'Mountain' | 'Road' | 'Hybrid' | 'BMX' | 'Electric' | 'Kids';
+  category: string;
   description: string;
   quantity: number;
   reviews?: Types.ObjectId[];

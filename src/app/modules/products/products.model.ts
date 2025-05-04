@@ -8,11 +8,7 @@ const productSchema = new Schema<TProduct>(
     model: { type: String, required: true, trim: true },
     image: { type: String, required: true },
     price: { type: Number, required: true },
-    type: {
-      type: String,
-      enum: ['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric', 'Kids'],
-      required: true,
-    },
+    category: { type: String, required: true },
     tag: { type: String },
     reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
     description: { type: String, required: true },
