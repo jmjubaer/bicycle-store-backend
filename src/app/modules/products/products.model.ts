@@ -15,6 +15,7 @@ const productSchema = new Schema<TProduct>(
     quantity: { type: Number, required: true },
     inStock: { type: Boolean, required: true, default: true },
     colors: { type: [String], required: true },
+    discount: { type: Number, }, // ✅ Added
   },
   {
     timestamps: true,

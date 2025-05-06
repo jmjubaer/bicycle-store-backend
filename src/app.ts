@@ -9,6 +9,7 @@ import { authRoutes } from './app/modules/auth/auth.route';
 import { globalErrorHandler } from './app/errors/GlobalErrorHandler';
 import { reviewRoutes } from './app/modules/reviews/review.route';
 import { categoryRoutes } from './app/modules/category/category.route';
+import { flashSaleRoutes } from './app/modules/flashSell/flashSale.routes';
 const app = express();
 
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use('/api', userRoutes);
 app.use('/api', authRoutes);
 app.use('/api', reviewRoutes);
 app.use('/api', categoryRoutes);
+app.use('/api', flashSaleRoutes);
 app.get('/', (req, res) => {
   res.send('By-cycle store server is running');
 });

@@ -13,4 +13,5 @@ export type TProduct = {
   reviews?: Types.ObjectId[];
   inStock: boolean;
   colors: string[];
+  discount?: number;
 };
