@@ -13,6 +13,11 @@ const userSchema = new Schema<TUser>(
       required: true,
       unique: true,
     },
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     password: {
       type: String,
       required: true,
@@ -35,6 +40,11 @@ const userSchema = new Schema<TUser>(
       type: Boolean,
       default: false,
     },
+    city: { type: String, trim: true },
+    district: { type: String, trim: true },
+    thana: { type: String, trim: true },
+    postalCode: { type: Number },
+    localAddress: { type: String, trim: true },
   },
   {
     timestamps: true,

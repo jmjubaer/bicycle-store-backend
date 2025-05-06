@@ -35,10 +35,10 @@ router.get(
   userControllers.getMe,
 );
 router.patch(
-  '/user/update-name',
+  '/user/update-profile',
   validateRequest(userNameChangeValidationSchema),
   auth('admin', 'customer', 'supperAdmin'),
-  userControllers.updateUserName,
+  userControllers.updateUseProfile,
 );
 router.get(
   '/activity-summary',
